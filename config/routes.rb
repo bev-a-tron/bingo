@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  get "pages", to: "pages#home"
+  get "pages", to: "pages#show"
 end

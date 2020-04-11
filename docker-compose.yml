@@ -1,0 +1,27 @@
+# docker-compose.yml
+
+version: '3.7'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - /Users/beverly/docker/volumes/postgres:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: hello
+      POSTGRES_DB: bingo_dev
+
+  api:
+    working_dir: /app
+    build: .
+    env_file: .env
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
